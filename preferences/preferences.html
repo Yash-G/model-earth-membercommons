@@ -441,7 +441,7 @@
                 'default': 'text-gray-600'
             };
 
-            const sectorKey = sector.toLowerCase();
+            const sectorKey = sector ? sector.toLowerCase() : 'default';
             const iconPath = iconMap[sectorKey] || iconMap.default;
             const iconColor = colorMap[sectorKey] || colorMap.default;
 
@@ -697,38 +697,38 @@
             // Header section
             const header = createElement('div', 'flex items-start justify-between mb-4');
             const headerLeft = createElement('div', 'flex items-center space-x-3');
-            headerLeft.appendChild(getSectorIcon(project["NAICS Sector"]));
+            headerLeft.appendChild(getSectorIcon(project.naics_sector));
             const headerInfo = createElement('div');
-            headerInfo.appendChild(createElement('h3', 'font-semibold text-gray-900 text-lg', project["Project Name"]));
-            headerInfo.appendChild(createElement('p', 'text-sm text-gray-600', `${project["Country"]} • ${project["NAICS Sector"]}`));
+            headerInfo.appendChild(createElement('h3', 'font-semibold text-gray-900 text-lg', project.project_name));
+            headerInfo.appendChild(createElement('p', 'text-sm text-gray-600', `${project.country} • ${project.naics_sector}`));
             headerLeft.appendChild(headerInfo);
             
-            const statusBadge = createElement('span', `px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800`, project["Project Type"]);
+            const statusBadge = createElement('span', `px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800`, project.project_type);
             
             header.appendChild(headerLeft);
             header.appendChild(statusBadge);
 
             // Description
-            const description = createElement('p', 'text-gray-700 mb-4 leading-relaxed', project["Project Description"]);
+            const description = createElement('p', 'text-gray-700 mb-4 leading-relaxed', project.project_description);
 
             // Project details
             const detailsInfo = createElement('div', 'mb-4 space-y-2');
             
-            if (project["Project Number"]) {
+            if (project.project_number) {
                 const projectNumber = createElement('div', 'text-sm text-gray-600');
-                projectNumber.innerHTML = `<span class="font-medium">Project Number:</span> ${project["Project Number"]}`;
+                projectNumber.innerHTML = `<span class="font-medium">Project Number:</span> ${project.project_number}`;
                 detailsInfo.appendChild(projectNumber);
             }
             
-            if (project["Department"]) {
+            if (project.department) {
                 const department = createElement('div', 'text-sm text-gray-600');
-                department.innerHTML = `<span class="font-medium">Department:</span> ${project["Department"]}`;
+                department.innerHTML = `<span class="font-medium">Department:</span> ${project.department}`;
                 detailsInfo.appendChild(department);
             }
             
-            if (project["Framework"]) {
+            if (project.framework) {
                 const framework = createElement('div', 'text-sm text-gray-600');
-                framework.innerHTML = `<span class="font-medium">Framework:</span> ${project["Framework"]}`;
+                framework.innerHTML = `<span class="font-medium">Framework:</span> ${project.framework}`;
                 detailsInfo.appendChild(framework);
             }
 
@@ -736,7 +736,7 @@
             const fundingInfo = createElement('div', 'mb-4');
             const fundingRow = createElement('div', 'flex items-center justify-between text-sm mb-2');
             fundingRow.appendChild(createElement('span', 'text-gray-600', 'Committed Amount'));
-            fundingRow.appendChild(createElement('span', 'font-semibold text-gray-900', `$${project["Committed"].toLocaleString()}`));
+            fundingRow.appendChild(createElement('span', 'font-semibold text-gray-900', `$${(project.committed || 0).toLocaleString()}`));
             fundingInfo.appendChild(fundingRow);
 
             // Tags
@@ -748,10 +748,10 @@
             tagsContainer.appendChild(tagsWrapper);
 
             // Project Profile URL
-            if (project["Project Profile URL"]) {
+            if (project.project_profile_url) {
                 const urlLink = createElement('div', 'mb-4');
                 const link = createElement('a', 'text-blue-600 hover:text-blue-800 text-sm underline', 'View Project Profile');
-                link.href = project["Project Profile URL"];
+                link.href = project.project_profile_url;
                 link.target = '_blank';
                 urlLink.appendChild(link);
                 card.appendChild(urlLink);
